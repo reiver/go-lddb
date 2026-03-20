@@ -14,7 +14,11 @@ In contrast, **HLD** (**Hybrid Linked-Data Document**) works well for or general
 
 ---
 
-## 1. File Structure Overview
+## 1. Performance Concerns
+
+---
+
+## 2. File Structure Overview
 
 The **HLD** format uses a **Paged Binary Layout**.
 
@@ -30,7 +34,7 @@ An **HLD** file is divided into 4KB segments (Pages) to allow for efficient disk
 
 ---
 
-## 2. The Dictionary Layer (The "HDT-Lite" Secret)
+## 3. The Dictionary Layer (The "HDT-Lite" Secret)
 
 **Dictionaries** are sometimes used to compress data.
 The **HLD** format (also) uses a **dictionary** to compress data.
@@ -95,7 +99,7 @@ Might be replaced with:
 
 Where `0x02` maps to `"@type"`, `0x06` maps to `"https://www.w3.org/ns/activitystreams#Person"`, and `0x07` maps to `"https://www.w3.org/ns/activitystreams#Person"`.
 
-### 2.1. Dictionary Sections
+### 3.1. Dictionary Sections
 
 The dictionary will have 2 sections:
 
@@ -106,12 +110,12 @@ The dictionary will have 2 sections:
 
 ---
 
-## 3. Data Page Encoding
+## 4. Data Page Encoding
 Each **Data Page** contains a cluster of **JSON-LD documents**.
 
 **JSON-LD documents** are encoded as CBOR.
 
-### 3.1. Fragments
+### 4.1. Fragments
 
 The **format** is: CBOR-encoded fragments.
 
@@ -121,14 +125,14 @@ To deal with this, we will say that a single Page contains CBOR-encoded **fragme
 
 Alternatively, if many JSON-LD documents are small enough, many JSON-LD document could fit in a single page.
 
-### 3.2. Referential Integrity
+### 4.2. Referential Integrity
 
 Instead of the CBOR objects storing the the URLs/URIs/IRIs used as IDs (identifiers) for the JSON-LD objects, the encoded CBOR will store **relative pointer offsets**.
 
 For example, a value of `-50` could mean, see the document that starts _50 bytes back_ in the file from here.
 Or, for example, a value of `100` could mean, see the document that starts _100 bytes forward_ in the file from here.
 
-### 3.3. Graph Flattening
+### 4.3. Graph Flattening
 
 The JSON-LD documents are "flattened" before storing them as CBOR.
 So that there aren't any embedded objects.
@@ -172,7 +176,7 @@ After flattening there would be 2 JSON-LD nodes:
 
 ---
 
-## 4. Indexing Model
+## 5. Indexing Model
 
 To locate a triple $(s, p, o)$ within the JSON documents, we use a **Compressed Bitmask Index**.
 Given a Subject ID ($s$), the index provides the offset to the specific Page:
@@ -185,7 +189,7 @@ Where $N$ is the total number of buckets in our primary index.
 
 I.e,. it is a (type of simple) hash-table.
 
-### 4.1. Handling Collisions (The "Compressed" bit)
+### 5.1. Handling Collisions (The "Compressed" bit)
 
 The usage of a **Compressed Bitmask Index** is an optimization for the situation when two different Subjects ($s_1$ and $s_2$) happen to hash to the same bucket.
 Instead of storing just one offset, the `IndexTable` can point to a **Collision Block**.
@@ -194,9 +198,9 @@ This is to try to keep the index small enough to fit in the CPU's L3 cache, whic
 
 ---
 
-## 5. Implementation Requirements
+## 6. Implementation Requirements
 
-###  5.1. Alignment
+###  6.1. Alignment
 
 To make this performant, there are some quirks of modern computer and CPU architecture that we want to optimize for.
 
@@ -206,12 +210,12 @@ If a 64-bit integer starts at an address that isn't a multiple of 8, the CPU has
 
 Therefore, in this format, all blocks must be 8-byte aligned (so that we can optimize for current modern CPU architectures).
 
-### 5.2. Concurrency
+### 6.2. Concurrency
 
 The format must support **single-write / multiple-readers** (**SWMR**).
 Perhaps using _file locking_.
 
-### 5.3. Zero-Copy
+### 6.3. Zero-Copy
 
 Copying data over and over again can negatively affect performace.
 
@@ -219,7 +223,7 @@ A parser should _map_ the file into memory (`mmap`) and return pointers to the s
 
 ---
 
-### 6. Comparison to HDT
+### 7. Comparison to HDT
 
 The **HDT** (**Header-Dictionary-Triples**) format is a good format for read-only use-cases.
 However, we are interested in use-cases where we also have full CRUD (create-read-update-delete) operations (and _not just_ real-only).
