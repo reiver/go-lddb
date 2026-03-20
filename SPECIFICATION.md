@@ -171,16 +171,32 @@ After flattening there would be 2 JSON-LD nodes:
 
 ---
 
+## 4. Indexing Model
+
 ---
 
 ## 5. Implementation Requirements
 
-To make this performant, there are some quirks of modern computer and CPU architecture that we want to optimize for.
-
 ###  5.1. Alignment
+
+To make this performant, there are some quirks of modern computer and CPU architecture that we want to optimize for.
 
 What is considered _modern CPUs_ (at the time of writing) (such as x86_64 or ARM64) do not actually read data from memory one byte at a time.
 They fetch data from memory in "chunks" (which tend to be 8 bytes or 64 bits at a time).
 If a 64-bit integer starts at an address that isn't a multiple of 8, the CPU has to perform two memory fetches and a bit-shift to "stitch" the number together.
 
 Therefore, in this format, all blocks must be 8-byte aligned (so that we can optimize for current modern CPU architectures).
+
+### 5.2. Concurrency
+
+The format must support **single-write / multiple-readers** (**SWMR**).
+Perhaps using _file locking_.
+
+### 5.3. Zero-Copy
+
+Copying data over and over again can negatively affect performace.
+
+A parser should _map_ the file into memory (`mmap`) and return pointers to the strings in the Dictionary rather than copying them into new memory strings.
+
+---
+
