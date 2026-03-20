@@ -64,6 +64,43 @@ For example:
 An OS can only choose from the supported **page sizes** supported by the CPU.
 The OS cannot create an arbitrary _page size_, such like 3 KB or 10 KB.
 
+#### 1.1.3. Address Translation
+
+The **page size** affects how **address translation** works.
+
+##### a) Address splitting
+
+A virtual address is divided into:
+
+* **Page number** (upper bits)
+* **Offset within page** (lower bits)
+
+For example (4 KB page):
+
+* Offset = 12 bits (because 2¹² = 4096 bytes)
+* Remaining bits = page number
+
+The CPU hardware is designed around this structure.
+
+##### b) TLB (Translation Lookaside Buffer)
+
+The CPU caches translations in a **TLB**:
+
+* Each entry maps **one page**
+* Larger pages → fewer entries needed
+* Smaller pages → finer granularity but more overhead
+
+So page size is a performance tradeoff, handled partly in hardware.
+
+##### c) Page table format
+
+The CPU dictates:
+
+* How many levels page tables have
+* How entries are structured
+* What flags exist (read/write, execute, etc.)
+
+The OS must follow this exact format.
 
 
 
