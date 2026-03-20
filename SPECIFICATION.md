@@ -16,6 +16,15 @@ In contrast, **HLD** (**Hybrid Linked-Data Document**) works well for or general
 
 ## 1. Performance Concerns
 
+The **Hybrid Linked-Data Document (HLD)** format is designed for **performance**.
+This attention to performance is (part of) what makes it suitable as a **database file-format**.
+
+To be designed for **performance** must gear itself towards the reality of modern computer technology.
+
+### 1.1. File Pages
+
+### 1.2. Memory Alignment
+
 ---
 
 ## 2. File Structure Overview
