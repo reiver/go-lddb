@@ -120,3 +120,11 @@ To deal with this, we will say that a single Page contains CBOR-encoded **fragme
 
 Alternatively, if many JSON-LD documents are small enough, many JSON-LD document could fit in a single page.
 
+### 3.2. Referential Integrity
+
+Instead of the CBOR objects storing the the URLs/URIs/IRIs used as IDs (identifiers) for the JSON-LD objects, the encoded CBOR will store **relative pointer offsets**.
+
+For example, a value of `-50` could mean, see the document that starts _50 bytes back_ in the file from here.
+Or, for example, a value of `100` could mean, see the document that starts _100 bytes forward_ in the file from here.
+
+
