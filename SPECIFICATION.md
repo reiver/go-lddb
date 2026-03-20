@@ -102,18 +102,19 @@ The CPU dictates:
 
 The OS must follow this exact format.
 
+#### 1.1.4. What the OS actually controls
 
+An OS (such as Linux or Windows):
 
+* Chooses **which supported page size to use by default**
+* Manages allocation of pages
+* Sets up page tables
+* Decides when to use **huge pages**
 
+But it cannot:
 
-
-
-
-
-
-
-
-
+* Change the fundamental page size options
+* Redefine how translation works
 
 ### 1.2. Memory Alignment
 
