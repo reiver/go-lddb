@@ -2,22 +2,22 @@
 
 This specification describes the **Hybrid Linked-Data Document (HLD)** format.
 
-HLD is geared towards being a **database file-format** for **Linked-Data** that supports **CRUD** (**Create Read Update Delete**) operations.
+**HLD** is geared towards being a **database file-format** for **Linked-Data** that supports **CRUD** (**Create Read Update Delete**) operations.
 
-HLD can be compared to the HDT (Header, Dictionary, Triples) format.
-While a format such as HDT (Header, Dictionary, Triples) is excellent for read opertations, performs poorly for write and update operation.
-HLD works well for write and update operations.
+**HLD** can be compared to the **HDT** (**Header, Dictionary, Triples**) format.
+While a format such as **HDT** (**Header, Dictionary, Triples**) is excellent for read opertations, it (**HDT**)performs poorly for write and update operation.
+**HLD** (**Hybrid Linked-Data Document**) works well for write and update operations.
 
-HLD can also be compared to the JSON-LD format.
-JSON-LD is geared towards programmer-legibiilty, where HLD is geared towards machine-legibililty and performance.
+**HLD** can also be compared to the **JSON-LD** format.
+**JSON-LD** is geared towards programmer-legibiilty, where **HLD** is geared towards machine-legibililty and performance.
 
 ---
 
 ## 1. File Structure Overview
 
-The HLD format uses a **Paged Binary Layout**.
+The **HLD** format uses a **Paged Binary Layout**.
 
-An HLD file is divided into 4KB segments (Pages) to allow for efficient disk I/O and random access.
+An **HLD** file is divided into 4KB segments (Pages) to allow for efficient disk I/O and random access.
 (Most extant operating-system seem to have Pages that are 4KB sized. Which is why _4KB_ was chosen.)
 
 | Segment             | Purpose                                                                                                            |
@@ -26,3 +26,55 @@ An HLD file is divided into 4KB segments (Pages) to allow for efficient disk I/O
 | **Dictionary**      | Used to reduce the size of the data in the _Data Pages_. A mapping of URIs and common Keys to Short-IDs (Varints). |
 | **Data Pages**      | Document-centric blocks stored in **CBOR** (Concise Binary Object Representation).                                 |
 | **Index (Trailer)** | A B-Tree or Hash Index for lookup by Document ID or Subject.                                                       |
+
+---
+
+## 2. The Dictionary Layer (The "HDT-Lite" Secret)
+
+**Dictionaries** are sometimes used to compress data.
+The **HLD** format (also) uses a **dictionary** to compress data.
+
+Here we are using **"dictionary"** in the computing sense of the word.
+I.e., a **dictionary** is a mapping from one thing to another.
+For the purposes of this specification, we are mapping strings (such as URLs/URIs/IRIs, keys, etc) to variable-length integers.
+
+The basic idea is to replace frequently occuring strings with a short integer.
+
+For example, maybe replacing the string:
+
+```
+"https://www.w3.org/ns/activitystreams#Person"
+```
+
+With:
+
+```
+3
+```
+
+We can look at this same example from a **byte** point of view.
+This is the string `"https://www.w3.org/ns/activitystreams#Person"`:
+
+```
+74 74 70 73 3a 2f 2f 77 77 77 2e 77 33 2e 6f 72 67 2f 6e 73 2f 61 63 74 69 76 69 74 79 73 74 72 65 61 6d 73 23 50 65 72 73 6f 6e
+```
+
+And this is the short integer that could replace the string:
+
+```
+03
+```
+
+The short integer is interpreted as an _index_ into a **dictionary** (look-up table).
+
+The **dictionary** (look-up table) could be:
+
+```
+1 → `"@id"`
+2 → `"@type"`
+3 → `"https://www.w3.org/ns/activitystreams"`
+4 → `"http://schema.org"`
+5 → `"http://purl.org/dc/elements/1.1/"
+6 → `"https://www.w3.org/ns/activitystreams#Person"`
+...
+```
