@@ -103,4 +103,20 @@ The dictionary will have 2 sections:
 | Static Dictionary  | Part of the specification. Values not stored in file. For very common strings. Drawn from common vocabularies (activitypub/activitystreams, schema.org, rdf, rdfs). |
 | Dynamic Dictionary | Determined from the data. (Ex: common URLs/URIs/IRIs, other common strings.)  |
 
+---
+
+## 3. Data Page Encoding
+Each **Data Page** contains a cluster of **JSON-LD documents**.
+
+**JSON-LD documents** are encoded as CBOR.
+
+### 3.1. Fragments
+
+The **format** is: CBOR-encoded fragments.
+
+A **JSON-LD document** (encoded as CBOR) _could_ be larger than a single page.
+To deal with this, we will say that a single Page contains CBOR-encoded **fragment**.
+(Of course, if the CBOR encoded JSON-LD document is small enough, there will be only 1 fragment that will be the whole document.)
+
+Alternatively, if many JSON-LD documents are small enough, many JSON-LD document could fit in a single page.
 
