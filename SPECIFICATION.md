@@ -176,12 +176,20 @@ After flattening there would be 2 JSON-LD nodes:
 To locate a triple $(s, p, o)$ within the JSON documents, we use a **Compressed Bitmask Index**.
 Given a Subject ID ($s$), the index provides the offset to the specific Page:
 
-
 $$BucketIndex = \text{hash}(s) \pmod{N}$$
 
 $$Offset = IndexTable[BucketIndex]$$
 
 Where $N$ is the total number of buckets in our primary index.
+
+I.e,. it is a (type of simple) hash-table.
+
+### 4.1. Handling Collisions (The "Compressed" bit)
+
+The usage of a **Compressed Bitmask Index** is an optimization for the situation when two different Subjects ($s_1$ and $s_2$) happen to hash to the same bucket.
+Instead of storing just one offset, the `IndexTable` can point to a **Collision Block**.
+This block uses a small bitmask to communicate to the parser: _"There are 3 subjects in this bucket; skip X bytes to find the one you want."_
+This is to try to keep the index small enough to fit in the CPU's L3 cache, which is very impportant for performance.
 
 ---
 
