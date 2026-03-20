@@ -127,4 +127,15 @@ Instead of the CBOR objects storing the the URLs/URIs/IRIs used as IDs (identifi
 For example, a value of `-50` could mean, see the document that starts _50 bytes back_ in the file from here.
 Or, for example, a value of `100` could mean, see the document that starts _100 bytes forward_ in the file from here.
 
+## 3.3. Graph Flattening
+
+The JSON-LD documents are "flattened" before storing them as CBOR.
+So that there aren't any embedded objects.
+The embedded objects get their own CBOR object (and the thing that _had_ it embedded in it points to it).
+
+The reasons for this:
+
+* **sequential access**: a parser can, for example read an "Address" into memory, then the "Person" (that was embedding it), and simply point the Person's address field to the memory location where the Address already sits
+* **stack overflow prevention**: with this (and unlike JSON) there is no deep recursion; you are simply iterating through a list of entries
+* **partial reads**: if, for example, you only need the "Address", you don't have to parse the entire "Person" object to find it
 
