@@ -93,3 +93,14 @@ Might be replaced with:
 ```
 
 Where `0x02` maps to `"@type"`, `0x06` maps to `"https://www.w3.org/ns/activitystreams#Person"`, and `0x07` maps to `"https://www.w3.org/ns/activitystreams#Person"`.
+
+### 2.1. Dictionary Sections
+
+The dictionary will have 2 sections:
+
+| Section Type       | Section Description                                                           |
+|--------------------|-------------------------------------------------------------------------------|
+| Static Dictionary  | Part of the specification. Values not stored in file. For very common strings. Drawn from common vocabularies (activitypub/activitystreams, schema.org, rdf, rdfs). |
+| Dynamic Dictionary | Determined from the data. (Ex: common URLs/URIs/IRIs, other common strings.)  |
+
+
