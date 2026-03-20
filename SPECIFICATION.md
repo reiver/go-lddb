@@ -173,6 +173,16 @@ After flattening there would be 2 JSON-LD nodes:
 
 ## 4. Indexing Model
 
+To locate a triple $(s, p, o)$ within the JSON documents, we use a **Compressed Bitmask Index**.
+Given a Subject ID ($s$), the index provides the offset to the specific Page:
+
+
+$$BucketIndex = \text{hash}(s) \pmod{N}$$
+
+$$Offset = IndexTable[BucketIndex]$$
+
+Where $N$ is the total number of buckets in our primary index.
+
 ---
 
 ## 5. Implementation Requirements
