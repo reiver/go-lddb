@@ -19,9 +19,16 @@ In contrast, **HLD** (**Hybrid Linked-Data Document**) works well for or general
 The **Hybrid Linked-Data Document (HLD)** format is designed for **performance**.
 This attention to performance is (part of) what makes it (**HLD**) suitable as a **database file-format**.
 
-To be designed for **performance** as a **database file-format** for **Linked-Data** (such as that gotten from JSON-LD), **it must gear itself towards the reality of modern computer technology**.
+To be designed for **performance** as a **database file-format** for **Linked-Data** (such as that gotten from JSON-LD), **it must gear itself towards the realities of modern computer technologies**.
 
 ### 1.1. File Pages
+
+In operating systems, a page is a fixed-size block of memory (commonly 4 KB) used in virtual memory.
+This concept comes from the OS (operating system) and CPU (central-processing unit), not the file-system.
+
+The CPU defines what a **page** is and what sizes **pages** are allowed to be, because **paging** is implemented directly in hardware.
+The OS does not invent the idea of a **pages** from scratch — instead the OS configures and uses what the CPU supports.
+
 
 ### 1.2. Memory Alignment
 
