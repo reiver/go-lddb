@@ -200,3 +200,13 @@ A parser should _map_ the file into memory (`mmap`) and return pointers to the s
 
 ---
 
+### 6. Comparison to HDT
+
+The **HDT** (**Header-Dictionary-Triples**) format is a good format for read-only use-cases.
+However, we are interested in use-cases where we also have full CRUD (create-read-update-delete) operations (and _not just_ real-only).
+
+When a new record is added to the **HDT** (**Header-Dictionary-Triples**) formatted file, it has to do a full re-sort of the **Triples** section to make it so its bitmap structure maintained.
+
+With the **HLD** (**Hybrid Linked-Data Document**) format, it allows you to append a new **Data Page** and update the **(Trailer) Index** in $O(\log n)$ time.
+
+While **HLD** is _not_ as compressed as **HDT**, **HLD** has the abililty to function as a performant format for _live_ databases with full CRUD operations (which **HLD** cannot).
