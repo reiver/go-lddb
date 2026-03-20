@@ -29,6 +29,54 @@ This concept comes from the OS (operating system) and CPU (central-processing un
 The CPU defines what a **page** is and what sizes **pages** are allowed to be, because **paging** is implemented directly in hardware.
 The OS does not invent the idea of a **pages** from scratch — instead the OS configures and uses what the CPU supports.
 
+#### 1.1.1. Virtual Memory
+
+**Paging** exists because of **virtual memory**.
+**Virtual Memory** is implemented by the CPU’s **Memory Management Unit (MMU)**.
+
+The **MMU**:
+
+* translates **virtual addresses** to **physical addresses**, and
+* does this translation **in units of pages**.
+
+So, **paging** is built into how the CPU accesses memory.
+
+#### 1.1.2. Page Sizes
+
+The CPU architecture specifies:
+
+* the **page sizes** that it supports,
+* the _format_ of the **page tables**, and
+* the address translation rules.
+
+For example:
+
+* On x86-64:
+
+  * 4 KB pages (most common)
+  * 2 MB pages (“huge pages”)
+  * 1 GB pages (for special cases)
+
+* On ARM:
+
+  * 4 KB, 16 KB, or 64 KB base page sizes (depending on configuration)
+
+An OS can only choose from the supported **page sizes** supported by the CPU.
+The OS cannot create an arbitrary _page size_, such like 3 KB or 10 KB.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### 1.2. Memory Alignment
 
