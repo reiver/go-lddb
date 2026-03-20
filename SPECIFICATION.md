@@ -5,7 +5,7 @@ This specification describes the **Hybrid Linked-Data Document (HLD)** format.
 **HLD** is geared towards being a **database file-format** for **Linked-Data** that supports **CRUD** (**Create Read Update Delete**) operations.
 
 **HLD** can be compared to the **HDT** (**Header, Dictionary, Triples**) format.
-While a format such as **HDT** (**Header, Dictionary, Triples**) is excellent for read opertations and compression, it (**HDT**) performs poorly for create, update, and delete operations.
+While a format such as **HDT** (**Header, Dictionary, Triples**) is excellent for read opertations and compression, it (**HLD**) performs poorly for create, update, and delete operations.
 And this, it (**HLD**) is not optimal for general **CRUD** (**Create Read Update Delete**) usage.
 In contrast, **HLD** (**Hybrid Linked-Data Document**) works well for or general **CRUD** (**Create Read Update Delete**) usage.
 
