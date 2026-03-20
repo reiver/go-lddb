@@ -139,3 +139,32 @@ The reasons for this:
 * **stack overflow prevention**: with this (and unlike JSON) there is no deep recursion; you are simply iterating through a list of entries
 * **partial reads**: if, for example, you only need the "Address", you don't have to parse the entire "Person" object to find it
 
+Here is an example.
+Consider this example JSON-LD document:
+
+```json
+{
+  "@id": "https://example.com/~joeblow",
+  "name": "Joe Blow",
+  "address": {
+    "locality": "London",
+    "postal-code": "SW1A 2AA"
+}
+```
+
+After flattening there would be 2 JSON-LD nodes:
+
+```json
+{
+  "locality": "London",
+  "postal-code": "SW1A 2AA"
+}
+```
+
+```json
+{
+  "@id": "https://example.com/~joeblow",
+  "name": "Joe Blow",
+  "address": [POINTER TO THE PREVIOUS ADDRESS RECORD]
+}
+```
