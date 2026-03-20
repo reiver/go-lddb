@@ -76,5 +76,20 @@ The **dictionary** (look-up table) could be:
 4 → `"http://schema.org"`
 5 → `"http://purl.org/dc/elements/1.1/"
 6 → `"https://www.w3.org/ns/activitystreams#Person"`
+7 → `"https://www.w3.org/ns/activitystreams#name"`
 ...
 ```
+
+To see this from the point of view of a JSON-LD document, the following JSON-LD
+
+```json
+{"@type": "Person", "name": "Alice"}
+```
+
+Might be replaced with:
+
+```
+[0x02, 0x06, 0x07, "Alice"]
+```
+
+Where `0x02` maps to `"@type"`, `0x06` maps to `"https://www.w3.org/ns/activitystreams#Person"`, and `0x07` maps to `"https://www.w3.org/ns/activitystreams#Person"`.
