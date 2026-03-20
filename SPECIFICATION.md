@@ -325,7 +325,7 @@ A parser should _map_ the file into memory (`mmap`) and return pointers to the s
 
 ---
 
-### 7. Comparison to HDT
+## 7. Comparison to HDT
 
 The **HDT** (**Header-Dictionary-Triples**) format is a good format for read-only use-cases.
 However, we are interested in use-cases where we also have full CRUD (create-read-update-delete) operations (and _not just_ real-only).
